@@ -108,7 +108,8 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout(central_widget)
         main_layout.setContentsMargins(5, 5, 5, 5)
 
-        # Создаем фиксированную шапку
+        # ========== ВЕРХНЯЯ ПАНЕЛЬ ==========
+        # Содержит переключатель темы и чекбокс "Поверх всех окон"
         header_layout = QHBoxLayout()
         self.theme_switch = ThemeSwitch()
         self.theme_switch.switched.connect(self.toggle_theme)
@@ -119,68 +120,48 @@ class MainWindow(QMainWindow):
         header_layout.addWidget(self.pin_window_check)
         main_layout.addLayout(header_layout)
 
-        # Уменьшаем отступ после шапки с 10 до 5 пикселей
+        # Маленький отступ после шапки
         spacer = QWidget()
         spacer.setFixedHeight(0)
         main_layout.addWidget(spacer)
 
-        # Создаем и добавляем виджет профилей
+        # ========== БЛОК НАСТРОЕК ПРОФИЛЯ ==========
+        # Содержит управление профилями, выбор окна и метода ввода
         self.profiles_widget = ProfilesWidget()
         main_layout.addWidget(self.profiles_widget)
 
-        # Создаем область прокрутки для основного контента
-        content_scroll = QScrollArea()
-        content_scroll.setWidgetResizable(True)
-        content_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-
-        # Создаем виджет для содержимого области прокрутки
-        content_widget = QWidget()
-        content_layout = QVBoxLayout(content_widget)
-        content_layout.setContentsMargins(5, 5, 5, 5)
-        content_layout.setSpacing(5)
-
-        # Создаем и добавляем виджет клавиш
+        # ========== БЛОК НАСТРОЕК КЛАВИШ ==========
+        # Здесь будут настройки клавиш и задержек
         self.keys_widget = KeysWidget()
-        self.keys_widget.set_available_keys(
-            self.available_keys)  # Передаем список клавиш
-        content_layout.addWidget(self.keys_widget)
+        main_layout.addWidget(self.keys_widget)
 
-        # Устанавливаем виджет содержимого в область прокрутки
-        content_scroll.setWidget(content_widget)
-
-        # Добавляем область прокрутки в главный layout
-        main_layout.addWidget(content_scroll)
-
-        # Создаем фиксированный контейнер для блока управления
+        # ========== БЛОК УПРАВЛЕНИЯ ==========
+        # Фиксированный блок с кнопками запуска/остановки и горячими клавишами
         bottom_container = QWidget()
-        bottom_container.setFixedHeight(150)  # Фиксированная высота
+        bottom_container.setFixedHeight(150)
         bottom_layout = QVBoxLayout(bottom_container)
         bottom_layout.setContentsMargins(5, 5, 5, 5)
         bottom_layout.setSpacing(5)
 
-        # Создаем и добавляем виджет управления в нижний контейнер
         self.control_widget = ControlWidget()
         bottom_layout.addWidget(self.control_widget)
-
-        # Добавляем нижний контейнер в главный layout
         main_layout.addWidget(bottom_container)
 
-        # Создаем консоль в самом низу
+        # ========== КОНСОЛЬ ==========
+        # Сворачиваемая консоль для вывода логов
         self.console = ConsoleWidget()
-        # Уменьшаем высоту консоли в два раза (было 150)
         self.console.setMaximumHeight(75)
         console_container = QWidget()
         console_layout = QVBoxLayout(console_container)
         console_layout.setContentsMargins(0, 0, 0, 0)
         console_layout.setSpacing(0)
 
-        # Создаем заголовок консоли
+        # Заголовок консоли с кнопкой сворачивания
         header = ConsoleHeader(toggle_callback=self.toggle_console)
         header_layout = QHBoxLayout(header)
         header_layout.setContentsMargins(5, 0, 5, 0)
         header_layout.addStretch()
 
-        # Добавляем кнопку сворачивания
         self.toggle_console_btn = QPushButton("▼")
         self.toggle_console_btn.setFixedSize(30, 15)
         self.toggle_console_btn.setStyleSheet("""
@@ -196,23 +177,18 @@ class MainWindow(QMainWindow):
         header_layout.addWidget(self.toggle_console_btn)
         header_layout.addStretch()
 
-        # Собираем консоль
         console_layout.addWidget(header)
         console_layout.addWidget(self.console)
-
-        # Добавляем консоль в главный layout
         main_layout.addWidget(console_container)
 
-        # Подключаем сигнал кнопки сворачивания
+        # Подключаем сигналы и настраиваем размеры
         self.toggle_console_btn.clicked.connect(self.toggle_console)
-
-        # Настраиваем размеры для комбобоксов и кнопок
         self.control_widget.start_btn.setFixedHeight(30)
         self.control_widget.stop_btn.setFixedHeight(30)
         self.control_widget.start_btn.setMaximumWidth(120)
         self.control_widget.stop_btn.setMaximumWidth(120)
 
-        # Заполняем комбобоксы
+        # Заполняем комбобоксы доступными клавишами
         self.control_widget.start_key_combo.addItems(self.available_keys)
         self.control_widget.stop_key_combo.addItems(self.available_keys)
 
@@ -282,7 +258,7 @@ class MainWindow(QMainWindow):
             self.console.log("Ошибка: Введите имя нового профиля")
             return
 
-        # Проверяем, существует ли профиль
+        # Проверяем, существует ��и профиль
         existing_profiles = self.profile_manager.config.get_profiles_list()
         if new_profile_name in existing_profiles:
             self.console.log(f"Ошибка: Профиль {
@@ -528,7 +504,7 @@ class MainWindow(QMainWindow):
             self.toggle_console_btn.setText("▼")
 
     def on_input_method_changed(self, method):
-        """Обработка изменения метода нажатий"""
+        """Обработка изменени�� метода нажатий"""
         if method == 'Arduino':
             # Используем arduino_settings из ProfilesWidget
             self.profiles_widget.arduino_settings.show()
