@@ -1,0 +1,19 @@
+game_clicker/
+├── main.py
+├── README.md
+├── requirements.txt
+├── gui/
+│   ├── __init__.py
+│   ├── main_window.py
+│   └── console_widget.py
+├── core/
+│   ├── __init__.py
+│   ├── arduino_controller.py
+│   ├── key_handler.py
+│   └── window_capture.py
+├── utils/
+│   ├── __init__.py
+│   ├── config.py
+│   └── profile_manager.py
+└── profiles/
+    └── default.json 

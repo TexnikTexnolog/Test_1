@@ -1,0 +1,17 @@
+{
+    "name": "2222",
+    "window_title": "main.py - Test_1 - Cursor",
+    "input_method": "Arduino",
+    "arduino_port": "йцйц",
+    "keys": [],
+    "start_hotkey": {
+        "key": "1",
+        "ctrl": false,
+        "alt": false
+    },
+    "stop_hotkey": {
+        "key": "1",
+        "ctrl": false,
+        "alt": false
+    }
+}
